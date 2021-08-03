@@ -4,6 +4,8 @@ import com.bamboo.global.enums.PostStateEnum;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "post")
@@ -38,4 +40,14 @@ public class Post {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "fk_reject_reason_idx")
   private RejectReason rejectReason;
+
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "post")
+  private List<PostImage> postImages = new ArrayList<>();
+
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "post")
+  private List<PostVideo> postVideos = new ArrayList<>();
+
+  @ManyToMany(fetch = FetchType.EAGER, mappedBy = "posts")
+  private List<Tag> tags = new ArrayList<>();
+
 }
