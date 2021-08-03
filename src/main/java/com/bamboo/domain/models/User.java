@@ -3,6 +3,8 @@ package com.bamboo.domain.models;
 import lombok.Getter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -23,4 +25,7 @@ public class User {
 
   @OneToOne(mappedBy = "user")
   private Admin admin;
+
+  @OneToMany(mappedBy = "user")
+  private List<Post> posts = new ArrayList<>();
 }
