@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-public enum AdminEnums {
+public enum AdminEnum {
 
   MANAGER,
   EDITOR;

@@ -1,6 +1,5 @@
 package com.bamboo.domain.models;
 
-import com.bamboo.global.enums.AdminEnum;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -8,22 +7,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "admin")
+@Table(name = "reaject_reason")
 @Getter
-public class Admin {
+public class RejectReason {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "idx", unique = true, nullable = false)
   private Long idx;
 
-  @Column(name = "permission", nullable = false)
-  private AdminEnum permission;
+  @Column(name = "reason", nullable = false)
+  private String reason;
 
-  @OneToOne()
-  @JoinColumn(name = "fk_user_id")
-  private User user;
-
-  @OneToMany(mappedBy = "admin")
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "rejectReason")
   private List<Post> posts = new ArrayList<>();
 }
