@@ -2,10 +2,7 @@ package com.bamboo.domain.models;
 
 import lombok.Getter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "user")
@@ -13,7 +10,7 @@ import javax.persistence.Table;
 public class User {
 
   @Id
-  private Long idx;
+  private String id;
 
   @Column(name = "name", nullable = false)
   private String name;
@@ -23,4 +20,7 @@ public class User {
 
   @Column(name = "profile_image", nullable = true)
   private String profileImage;
+
+  @OneToOne(mappedBy = "user")
+  private Admin admin;
 }
