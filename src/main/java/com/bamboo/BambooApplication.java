@@ -1,13 +1,13 @@
-package com.bamboo.soda;
+package com.bamboo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SodaApplication {
+public class BambooApplication {
 
   public static void main(String[] args) {
-    SpringApplication.run(SodaApplication.class, args);
+    SpringApplication.run(BambooApplication.class, args);
   }
 
 }
