@@ -1,13 +1,13 @@
-package com.bamboo.domain.models;
+package com.bamboo.api.domain.models;
 
 import lombok.Getter;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "post_video")
+@Table(name = "post_image")
 @Getter
-public class PostVideo {
+public class PostImage {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

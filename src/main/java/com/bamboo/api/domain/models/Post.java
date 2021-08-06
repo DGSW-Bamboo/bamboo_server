@@ -1,6 +1,6 @@
-package com.bamboo.domain.models;
+package com.bamboo.api.domain.models;
 
-import com.bamboo.global.enums.PostStateEnum;
+import com.bamboo.api.global.enums.PostStateEnum;
 import lombok.Getter;
 
 import javax.persistence.*;
