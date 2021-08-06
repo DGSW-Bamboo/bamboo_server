@@ -1,6 +1,5 @@
-package com.bamboo.global.enums;
+package com.bamboo.api.global.enums;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter

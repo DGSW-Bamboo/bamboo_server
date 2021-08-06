@@ -1,4 +1,4 @@
-package com.bamboo.domain.models;
+package com.bamboo.api.domain.models;
 
 import lombok.Getter;
 
