@@ -1,6 +1,6 @@
 package com.bamboo.api.global.exception;
 
-import com.bamboo.api.global.exception.errors.ErrorCodes;
+import com.bamboo.api.global.exception.errors.codes.ErrorCodes;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
