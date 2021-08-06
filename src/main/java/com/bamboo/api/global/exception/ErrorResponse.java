@@ -34,7 +34,7 @@ public class ErrorResponse {
 
   public static ErrorResponse of (final ErrorCodes errorCodes, final BindingResult bindingResult) {
 
-    return  new ErrorResponse(errorCodes, FieldErrors.of(bindingResult));
+    return new ErrorResponse(errorCodes, FieldErrors.of(bindingResult));
   }
 
   public static ErrorResponse of(final ErrorCodes errorCodes) {
