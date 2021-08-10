@@ -6,5 +6,6 @@ import lombok.Getter;
 public enum AdminEnum {
 
   MANAGER,
-  EDITOR;
+  EDITOR,
+  USER;
 }

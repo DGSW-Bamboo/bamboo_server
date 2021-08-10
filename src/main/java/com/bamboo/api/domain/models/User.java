@@ -1,5 +1,6 @@
 package com.bamboo.api.domain.models;
 
+import lombok.Builder;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -23,9 +24,24 @@ public class User {
   @Column(name = "profile_image", nullable = true)
   private String profileImage;
 
-  @OneToOne(mappedBy = "user")
+  @OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
   private Admin admin;
 
   @OneToMany(mappedBy = "user")
   private List<Post> posts = new ArrayList<>();
+
+  @Builder
+  public User(String name, String email, String profileImage){
+    this.name = name;
+    this.email = email;
+    this.profileImage = profileImage;
+  }
+
+  public User update(String name, String email, String profileImage){
+    this.name = name;
+    this.email = email;
+    this.profileImage = profileImage;
+
+    return this;
+  }
 }
