@@ -16,7 +16,7 @@ import java.nio.file.AccessDeniedException;
 
 @RestControllerAdvice
 @Slf4j
-public class GlobalExeptionHandler {
+public class GlobalExceptionHandler {
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
   protected ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException (MethodArgumentNotValidException e) {
