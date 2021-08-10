@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
     return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
   }
 
-  @ExceptionHandler(MethodArgumentNotValidException.class)
+  @ExceptionHandler(BindException.class)
   protected ResponseEntity<ErrorResponse> handleBindException (BindException e) {
     log.error("바인딩 중 오류 발생", e);
     final ErrorResponse errorResponse = ErrorResponse.of(ErrorCodes.INVALID_INPUT_VALUE, e.getBindingResult());
