@@ -1,7 +1,6 @@
 package com.bamboo.api.global.config.auth.dto;
 
 import com.bamboo.api.domain.models.User;
-import com.bamboo.api.global.enums.AdminEnum;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -33,13 +32,16 @@ public class OAuthAttributes {
   }
 
   private static OAuthAttributes ofDodam(String userNameAttributeName, Map<String, Object> attributes) {
+
+    Map<String, Object> response = (Map<String, Object>)attributes.get("data");
+
     return OAuthAttributes.builder()
-            .id((String) attributes.get("uniqueId"))
-            .name((String) attributes.get("name"))
-            .email((String) attributes.get("email"))
-            .picture((String) attributes.get("profileImage"))
-            .attributes(attributes)
-            .nameAttributeKey(userNameAttributeName)
+            .id((String) response.get("uniqueId"))
+            .name((String) response.get("name"))
+            .email((String) response.get("email"))
+            .picture((String) response.get("profileImage"))
+            .attributes(response)
+            .nameAttributeKey((String) response.get("uniqueId"))
             .build();
   }
 

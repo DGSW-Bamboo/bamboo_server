@@ -27,27 +27,28 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
   @Override
   public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+
     OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
     OAuth2User oAuth2User = delegate.loadUser(userRequest);
 
     String registrationId = userRequest.getClientRegistration().getRegistrationId();
     String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails().getUserInfoEndpoint().getUserNameAttributeName();
 
-    // OAuth2UserService
     OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
     User user = saveOrUpdate(attributes);
     httpSession.setAttribute("user", new Oauth2UserDto(user));
 
     AdminEnum permission = AdminEnum.USER;
 
-    if (user.getAdmin() != null) permission = user.getAdmin().getPermission();
+    if (user.getAdmin() != null) {
+      permission = user.getAdmin().getPermission();
+    }
 
     return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority(permission.toString())),
             attributes.getAttributes(),
             attributes.getNameAttributeKey());
   }
 
-  // 유저 생성 및 수정 서비스 로직
   private User saveOrUpdate(OAuthAttributes attributes){
     User user = userRepositoryFindUser.findByEmail(attributes.getEmail())
             .map(entity -> entity.update(attributes.getName(), attributes.getEmail(), attributes.getPicture()))

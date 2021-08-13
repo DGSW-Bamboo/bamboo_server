@@ -10,7 +10,9 @@ public enum ErrorCodes {
   INVALID_TYPE_VALUE(400, "잘못된 타입입니다"),
   METHOD_NOT_ALLOWED(405, "허용되지 않은 METHOD입니다"),
   HANDLE_ACCESS_DENIED(401, "권한이 없습니다"),
-  INTERNAL_SERVER_ERROR(500, "서버 오류");
+  INTERNAL_SERVER_ERROR(500, "서버 오류"),
+
+  ENTITY_NOT_FOUND (400, " Entity Not Found");
 
   private final int status;
   private final String message;
