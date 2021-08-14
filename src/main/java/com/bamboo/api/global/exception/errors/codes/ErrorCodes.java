@@ -12,7 +12,7 @@ public enum ErrorCodes {
   HANDLE_ACCESS_DENIED(401, "권한이 없습니다"),
   INTERNAL_SERVER_ERROR(500, "서버 오류"),
 
-  ENTITY_NOT_FOUND (400, " Entity Not Found");
+  ENTITY_NOT_FOUND (400, "Entity Not Found");
 
   private final int status;
   private final String message;

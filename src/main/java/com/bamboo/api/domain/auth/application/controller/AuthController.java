@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuthController {
 
-  private FindUserService findUserService;
+  private final FindUserService findUserService;
 
   @ApiOperation(value = "회원 조회", notes = "id로 특정 회원을 조회합니다")
   @GetMapping(value = "/find/{id}")
