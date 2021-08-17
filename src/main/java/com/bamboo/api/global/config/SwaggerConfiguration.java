@@ -20,7 +20,8 @@ public class SwaggerConfiguration {
           .select()
           .apis(RequestHandlerSelectors.any())
           .paths(PathSelectors.any())
-          .build();
+          .build()
+          .useDefaultResponseMessages(false);
   }
 
   private ApiInfo swaggerInfo() {
