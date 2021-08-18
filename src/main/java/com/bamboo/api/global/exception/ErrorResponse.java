@@ -4,6 +4,7 @@ import com.bamboo.api.global.exception.errors.codes.ErrorCodes;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -13,28 +14,28 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
+@Slf4j
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ErrorResponse {
 
   private int status;
   private String message;
-  private List<FieldErrors> errors;
 
   private ErrorResponse(final ErrorCodes errorCodes, final List<FieldErrors> errors) {
     this.status = errorCodes.getStatus();
     this.message = errorCodes.getMessage();
-    this.errors = errors;
   }
 
   private ErrorResponse(final ErrorCodes code) {
     this.status = code.getStatus();
     this.message = code.getMessage();
-    this.errors = new ArrayList<>();
   }
 
   public static ErrorResponse of (final ErrorCodes errorCodes, final BindingResult bindingResult) {
 
-    return new ErrorResponse(errorCodes, FieldErrors.of(bindingResult));
+    log.error("errorOccured", FieldErrors.of(bindingResult));
+
+    return new ErrorResponse(errorCodes);
   }
 
   public static ErrorResponse of(final ErrorCodes errorCodes) {
@@ -44,7 +45,9 @@ public class ErrorResponse {
 
   public static ErrorResponse of(final ErrorCodes errorCodes, final List<FieldErrors> errors) {
 
-    return new ErrorResponse(errorCodes, errors);
+    log.error("errorOccured", errors);
+
+    return new ErrorResponse(errorCodes);
   }
 
   public static ErrorResponse of(MethodArgumentTypeMismatchException e) {
