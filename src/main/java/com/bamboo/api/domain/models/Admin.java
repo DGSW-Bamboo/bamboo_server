@@ -1,6 +1,6 @@
 package com.bamboo.api.domain.models;
 
-import com.bamboo.api.global.enums.AdminEnum;
+import com.bamboo.api.global.enums.RoleEnum;
 import lombok.Getter;
 
 import javax.persistence.*;
@@ -18,7 +18,7 @@ public class Admin {
   private Long idx;
 
   @Column(name = "permission", nullable = false)
-  private AdminEnum permission;
+  private RoleEnum permission;
 
   @OneToOne()
   @JoinColumn(name = "fk_user_id")
