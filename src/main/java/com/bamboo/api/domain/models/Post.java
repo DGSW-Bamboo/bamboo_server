@@ -45,13 +45,8 @@ public class Post {
   @JoinColumn(name = "fk_user_id")
   private User user;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "fk_admin_idx")
-  private Admin admin;
-
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "fk_reject_reason_idx")
-  private RejectReason rejectReason;
+  @OneToOne(fetch = FetchType.EAGER)
+  private PostStatement postStatement;
 
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "post")
   private List<PostImage> postImages = new ArrayList<>();

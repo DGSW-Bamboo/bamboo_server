@@ -20,5 +20,5 @@ public class RejectReason {
   private String reason;
 
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "rejectReason")
-  private List<Post> posts = new ArrayList<>();
+  private List<PostStatement> postStatements = new ArrayList<>();
 }

@@ -1,5 +1,6 @@
 package com.bamboo.api.domain.models;
 
+import com.bamboo.api.global.enums.RoleEnum;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -21,11 +22,11 @@ public class User {
   @Column(name = "email", nullable = false)
   private String email;
 
+  @Column(name = "permission", nullable = false)
+  private RoleEnum permission;
+
   @Column(name = "profile_image", nullable = true)
   private String profileImage;
-
-  @OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
-  private Admin admin;
 
   @OneToMany(mappedBy = "user")
   private List<Post> posts = new ArrayList<>();

@@ -12,10 +12,7 @@ public class RestTemplateClientHttpRequestInterceptor implements ClientHttpReque
 
   @NonNull
   @Override
-  public ClientHttpResponse intercept(HttpRequest request,
-                                      byte[] body,
-                                      ClientHttpRequestExecution execution
-  ) throws IOException {
+  public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
 
     return execution.execute(request, body);
   }
