@@ -2,8 +2,8 @@ package com.bamboo.api.domain.auth.application.controller;
 
 import com.bamboo.api.domain.auth.application.dto.DodamLoginDto;
 import com.bamboo.api.domain.auth.response.MemberResponse;
-import com.bamboo.api.domain.auth.response.MemberWithTokenResponse;
 import com.bamboo.api.domain.auth.service.MemberService;
+import com.bamboo.api.domain.auth.service.MemberServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ public class AuthController {
   @PostMapping(value = "/code")
   public void dodamLogin (final @RequestBody @Valid DodamLoginDto dodamLoginDto) {
 
-    memberService.getTokenInDodam(dodamLoginDto.getCode());
+    memberService.save(dodamLoginDto.getCode());
 
 //    return new MemberWithTokenResponse("123", );
   }
