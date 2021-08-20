@@ -16,7 +16,7 @@ public class PostStatement {
 
   @OneToOne
   @JoinColumn(name = "fk_post_idx")
-  private Long postIdx;
+  private Post post;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "fk_user_id")

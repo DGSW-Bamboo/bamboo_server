@@ -1,5 +1,7 @@
 package com.bamboo.api.global.config.restTemplate;
 
+import com.bamboo.api.global.exception.errors.CustomError;
+import com.bamboo.api.global.exception.errors.codes.ErrorCodes;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -26,6 +28,8 @@ public class RestTemplateErrorHandler implements ResponseErrorHandler {
     final String error = getErrorAsString(response);
     log.error("Headers: {}", response.getHeaders());
     log.error("Response failed : {}", error);
+
+    throw new CustomError(ErrorCodes.REST_SERVER_ERROR);
   }
 
   private String getErrorAsString (@NonNull final ClientHttpResponse response) throws IOException {

@@ -24,11 +24,11 @@ public class RestTemplateConfig {
 
   @Bean
   public RestTemplate dodamAuthTemplate () {
-    return this.restTemplate("http://dauth.b1nd.com/api/token");
+    return this.restTemplate("http://dauth.b1nd.com/api");
   }
 
   @Bean
-  public RestTemplate dodamInfoTemplate () {
-    return this.restTemplate("http://open.dodam.b1nd.com/api/user");
+  public RestTemplate dodamOpenTemplate () {
+    return this.restTemplate("http://open.dodam.b1nd.com/api");
   }
 }
