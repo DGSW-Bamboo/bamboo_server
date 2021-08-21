@@ -13,6 +13,8 @@ public enum ErrorCodes {
   INTERNAL_SERVER_ERROR(500, "서버 오류"),
   PROPERTY_IS_UNDEFINED_ERROR(500, "환경 변수 설정이 되어있지 않습니다"),
 
+  TOKEN_VERIFY_ERROR(401, "잘못된 토큰입니다"),
+
   ENTITY_NOT_FOUND (400, "Entity Not Found"),
 
   REST_SERVER_ERROR(500, "서버 연결 오류");
