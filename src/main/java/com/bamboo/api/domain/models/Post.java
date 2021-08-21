@@ -2,9 +2,13 @@ package com.bamboo.api.domain.models;
 
 import com.bamboo.api.global.enums.PostStateEnum;
 import lombok.Getter;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -29,17 +33,20 @@ public class Post {
   @Column(name = "state", nullable = false)
   private PostStateEnum state;
 
+  @CreatedDate
+  @Column(name = "created_at", nullable = false)
+  private Date createdAt;
+
+  @LastModifiedDate
+  @Column(name = "updated_at", nullable = true)
+  private Date updatedAt;
+
   @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "fk_user_id")
   private User user;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "fk_admin_idx")
-  private Admin admin;
-
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "fk_reject_reason_idx")
-  private RejectReason rejectReason;
+  @OneToOne(fetch = FetchType.EAGER)
+  private PostStatement postStatement;
 
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "post")
   private List<PostImage> postImages = new ArrayList<>();

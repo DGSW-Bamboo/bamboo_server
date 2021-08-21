@@ -1,4 +1,4 @@
-package com.bamboo.api.global.config.swagger;
+package com.bamboo.api.global.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,10 +17,11 @@ public class SwaggerConfiguration {
   @Bean
   public Docket swaggerAPI () {
   return new Docket(DocumentationType.SWAGGER_2)
-    .apiInfo(swaggerInfo()).select()
-    .apis(RequestHandlerSelectors.any())
-    .build()
-    .useDefaultResponseMessages(false);
+          .select()
+          .apis(RequestHandlerSelectors.any())
+          .paths(PathSelectors.any())
+          .build()
+          .useDefaultResponseMessages(false);
   }
 
   private ApiInfo swaggerInfo() {

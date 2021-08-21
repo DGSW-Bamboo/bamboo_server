@@ -3,8 +3,9 @@ package com.bamboo.api.global.enums;
 import lombok.Getter;
 
 @Getter
-public enum AdminEnum {
+public enum RoleEnum {
 
   MANAGER,
-  EDITOR;
+  EDITOR,
+  USER;
 }
