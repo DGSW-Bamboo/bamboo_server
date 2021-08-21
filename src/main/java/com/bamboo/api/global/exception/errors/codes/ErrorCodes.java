@@ -17,7 +17,7 @@ public enum ErrorCodes {
 
   ENTITY_NOT_FOUND (400, "Entity Not Found"),
 
-  REST_SERVER_ERROR(500, "서버 연결 오류");
+  REST_SERVER_ERROR(401, "잘못된 코드 입니다");
 
   private final int status;
   private final String message;
