@@ -16,44 +16,55 @@ import java.util.stream.Collectors;
 @Getter
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ErrorResponse {
+public class ErrorResponse<T> {
 
   private int status;
-  private String message;
+  private T message;
 
-  private ErrorResponse(final ErrorCodes errorCodes, final List<FieldErrors> errors) {
+  private ErrorResponse (final ErrorCodes errorCodes, final T fieldErrors) {
     this.status = errorCodes.getStatus();
-    this.message = errorCodes.getMessage();
+    this.message = fieldErrors;
+  }
+
+  private ErrorResponse (final ErrorCodes errorCodes, final List<FieldErrors> errors) {
+    this.status = errorCodes.getStatus();
+    this.message = (T)errorCodes.getMessage();
   }
 
   private ErrorResponse(final ErrorCodes code) {
     this.status = code.getStatus();
-    this.message = code.getMessage();
+    this.message = (T)code.getMessage();
   }
 
-  public static ErrorResponse of (final ErrorCodes errorCodes, final BindingResult bindingResult) {
+  public static ErrorResponse<List<String>> of (final ErrorCodes errorCodes, final List<FieldError> fieldErrors) {
 
-    log.error("errorOccured", FieldErrors.of(bindingResult));
+    log.error("error occured", fieldErrors);
 
-    return new ErrorResponse(errorCodes);
+    List<String> fieldErrorList = new ArrayList<>();
+    for (FieldError fieldError : fieldErrors) {
+
+      fieldErrorList.add(fieldError.getDefaultMessage());
+    }
+
+    return new ErrorResponse<>(errorCodes, fieldErrorList);
   }
 
-  public static ErrorResponse of(final ErrorCodes errorCodes) {
+  public static ErrorResponse<String> of (final ErrorCodes errorCodes, final BindingResult bindingResult) {
 
-    return new ErrorResponse(errorCodes);
+    log.error("error occured", FieldErrors.of(bindingResult));
+
+    return new ErrorResponse<>(errorCodes);
   }
 
-  public static ErrorResponse of(final ErrorCodes errorCodes, final List<FieldErrors> errors) {
+  public static ErrorResponse<String> of(final ErrorCodes errorCodes) {
 
-    log.error("errorOccured", errors);
-
-    return new ErrorResponse(errorCodes);
+    return new ErrorResponse<>(errorCodes);
   }
 
-  public static ErrorResponse of(MethodArgumentTypeMismatchException e) {
+  public static ErrorResponse<String> of(MethodArgumentTypeMismatchException e) {
     final String value = e.getValue() == null ? "" : e.getValue().toString();
     final List<FieldErrors> errors = FieldErrors.of(e.getName(), value, e.getErrorCode());
-    return new ErrorResponse(ErrorCodes.INVALID_TYPE_VALUE, errors);
+    return new ErrorResponse<>(ErrorCodes.INVALID_TYPE_VALUE, errors);
   }
 
   @Getter

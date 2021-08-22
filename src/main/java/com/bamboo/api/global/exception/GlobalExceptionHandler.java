@@ -13,29 +13,31 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.nio.file.AccessDeniedException;
+import java.util.List;
 
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
-  protected ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException (MethodArgumentNotValidException e) {
+  protected ResponseEntity<ErrorResponse<List<String>>> handleMethodArgumentNotValidException (MethodArgumentNotValidException e) {
     log.error("타입 검증 오류 발생", e);
-    final ErrorResponse errorResponse = ErrorResponse.of(ErrorCodes.INVALID_INPUT_VALUE, e.getBindingResult());
+    System.out.println(e.getFieldErrors());
+    final ErrorResponse<List<String>> errorResponse = ErrorResponse.of(ErrorCodes.INVALID_INPUT_VALUE, e.getFieldErrors());
     return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
   }
 
   @ExceptionHandler(BindException.class)
-  protected ResponseEntity<ErrorResponse> handleBindException (BindException e) {
+  protected ResponseEntity<ErrorResponse<String>> handleBindException (BindException e) {
     log.error("바인딩 중 오류 발생", e);
-    final ErrorResponse errorResponse = ErrorResponse.of(ErrorCodes.INVALID_INPUT_VALUE, e.getBindingResult());
+    final ErrorResponse<String> errorResponse = ErrorResponse.of(ErrorCodes.INVALID_INPUT_VALUE, e.getBindingResult());
     return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
   }
 
   @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-  protected ResponseEntity<ErrorResponse> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
+  protected ResponseEntity<ErrorResponse<String>> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
     log.error("enum에 바인딩 중 오류 발생", e);
-    final ErrorResponse response = ErrorResponse.of(e);
+    final ErrorResponse<String> response = ErrorResponse.of(e);
     return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
   }
 
