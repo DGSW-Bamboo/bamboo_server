@@ -27,7 +27,7 @@ public class AuthController {
 
   @ApiOperation(value = "토큰 발급 밑 정보 갱신", notes = "dodam에서 로그인하고 발급받은 code를 넘겨받아 추가적인 인증과 회원 정보를 갱신하고 정보를 가져옵니다", response = MemberWithTokenResponse.class)
   @PostMapping(value = "/code")
-  public ResponseEntity<Object> dodamLogin (final @RequestBody @Valid DodamLoginDto dodamLoginDto) {
+  public ResponseEntity<Object> dodamLogin (final @Valid @RequestBody DodamLoginDto dodamLoginDto) {
 
     final User saveUser = memberService.save(dodamLoginDto.getCode());
     final String token = tokenUtil.generateToken(saveUser);
