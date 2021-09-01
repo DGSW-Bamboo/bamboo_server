@@ -21,25 +21,25 @@ public class TokenUtil {
   @Value("${jwt.secret}")
   private String secretKey;
 
-  public String getUsernameFromToken(String token){
+  public ParseTokenDto getUsernameFromToken(String token){
     try{
-      return getClaimFromToken(token, Claims::getSubject);
+      return getClaimFromToken(token);
     }catch(Exception ex){
       throw new CustomError(ErrorCodes.HANDLE_ACCESS_DENIED);
     }
   }
 
   public Date getExpirationDateFromToken(String token){
-    return getClaimFromToken(token, Claims::getExpiration);
+    return getAllClaimsFromToken(token).getExpiration();
   }
 
-  public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
+  public ParseTokenDto getClaimFromToken(String token) {
     final Claims claims = getAllClaimsFromToken(token);
-    return claimsResolver.apply(claims);
+    return new ParseTokenDto(claims.getIssuer(), claims.getSubject());
   }
 
   private Claims getAllClaimsFromToken(String token) {
-    return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+    return Jwts.parser().setSigningKey(secretKey).requireSubject("token").parseClaimsJws(token).getBody();
   }
 
   private Boolean isTokenExpired(String token){
@@ -49,21 +49,39 @@ public class TokenUtil {
 
   public String generateToken(User user){
     Map<String, Object> claims = new HashMap<>();
-    return doGenerateToken(claims, user.getId());
+    return doGenerateToken(claims, user.getId(), "access-token");
   }
 
-  private String doGenerateToken(Map<String, Object> claims, String username) {
+  public String generateRefreshToken(User user){
+    Map<String, Object> claims = new HashMap<>();
+    return doGenerateToken(claims, user.getId(), "refresh-token");
+  }
+
+  private String doGenerateToken(Map<String, Object> claims, String username, String subject) {
     return Jwts.builder()
             .setClaims(claims)
             .setSubject(username)
+            .setIssuer(subject)
             .setIssuedAt(new Date(System.currentTimeMillis()))
             .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
             .signWith(SignatureAlgorithm.HS256, secretKey)
             .compact();
   }
 
-  public Boolean validateToken(String token, User user){
-    final String username = getUsernameFromToken(token);
-    return(username.equals(user.getId()) && !isTokenExpired(token));
+  public Boolean validateAccessToken(String token, User user){
+    final ParseTokenDto parseTokenDto = getUsernameFromToken(token);
+    return (
+            parseTokenDto.getSubject().equals(user.getId()) &&
+                    !isTokenExpired(token) &&
+                    parseTokenDto.getIssuer().equals("access-token")
+    );
+  }
+
+  public Boolean validateRefreshToken(String refreshToken){
+    final ParseTokenDto parseTokenDto = getUsernameFromToken(refreshToken);
+    return (
+            parseTokenDto.getIssuer().equals("refresh-token") &&
+                    !isTokenExpired(refreshToken)
+    );
   }
 }

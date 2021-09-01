@@ -31,7 +31,8 @@ public class AuthController {
 
     final User saveUser = memberService.save(dodamLoginDto.getCode());
     final String token = tokenUtil.generateToken(saveUser);
-    final MemberWithTokenResponse memberWithTokenResponse = new MemberWithTokenResponse(saveUser, token);
+    final String refreshToken = tokenUtil.generateRefreshToken(saveUser);
+    final MemberWithTokenResponse memberWithTokenResponse = new MemberWithTokenResponse(saveUser, token, refreshToken);
 
     return ResponseHandler
             .generateResponse(

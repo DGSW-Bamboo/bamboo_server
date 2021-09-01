@@ -1,6 +1,7 @@
 package com.bamboo.api.domain.token.application.controller;
 
 import com.bamboo.api.domain.token.application.dto.TokenRenewalDto;
+import com.bamboo.api.domain.token.service.TokenService;
 import com.bamboo.api.global.common.response.ResponseHandler;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -20,11 +21,13 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class TokenController {
 
+  private final TokenService tokenService;
+
   @ApiOperation(value = "토큰 재 갱신", notes = "access-token이 만료되고 난 후 refresh토큰을 이용하여 갱신합니다")
   @PostMapping(value = "/")
   public ResponseEntity<Object> accessTokenRenewal (final @Valid @RequestBody TokenRenewalDto tokenRenewalDto) {
 
-
+    this.tokenService.tokenRenewal(tokenRenewalDto.getRefreshToken());
 
     return ResponseHandler
             .generateResponse(

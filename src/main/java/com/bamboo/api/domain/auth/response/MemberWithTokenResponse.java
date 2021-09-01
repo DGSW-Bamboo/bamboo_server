@@ -7,18 +7,12 @@ import lombok.Getter;
 public class MemberWithTokenResponse extends MemberResponse {
 
   private final String token;
-//  private final String refreshToken;
+  private final String refreshToken;
 
-  public MemberWithTokenResponse (User user, String token) {
+  public MemberWithTokenResponse (User user, String token, String refreshToken) {
 
     super(user);
     this.token = token;
+    this.refreshToken = refreshToken;
   }
-
-//  public MemberWithTokenResponse (String message, User user, String token, String refreshToken) {
-//
-//    super(message, user);
-//    this.token = token;
-//    this.refreshToken = refreshToken;
-//  }
 }
