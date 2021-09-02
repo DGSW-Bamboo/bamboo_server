@@ -4,9 +4,7 @@ import com.bamboo.api.domain.models.User;
 import com.bamboo.api.global.enums.TokenTypeEnum;
 import com.bamboo.api.global.exception.errors.CustomError;
 import com.bamboo.api.global.exception.errors.codes.ErrorCodes;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -21,30 +19,21 @@ public class TokenUtil {
   @Value("${jwt.secret}")
   private String secretKey;
 
-  public ParseTokenDto getUsernameFromToken(String token){
-    try{
-      return getClaimFromToken(token);
-    }catch(Exception ex){
-      throw new CustomError(ErrorCodes.HANDLE_ACCESS_DENIED);
-    }
-  }
-
-  public Date getExpirationDateFromToken(String token){
-    return getAllClaimsFromToken(token).getExpiration();
-  }
-
-  public ParseTokenDto getClaimFromToken(String token) {
+  public ParseTokenDto getDataFromToken(String token) {
     final Claims claims = getAllClaimsFromToken(token);
     return new ParseTokenDto(claims.getIssuer(), claims.getSubject());
   }
 
   private Claims getAllClaimsFromToken(String token) {
-    return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
-  }
-
-  private Boolean isTokenExpired(String token){
-    final Date expiration = getExpirationDateFromToken(token);
-    return expiration.before(new Date());
+    try {
+      return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+    } catch (SecurityException | MalformedJwtException | UnsupportedJwtException | IllegalArgumentException e) {
+      throw new CustomError(ErrorCodes.TOKEN_FOREGED_ERROR);
+    } catch (ExpiredJwtException e) {
+      throw new CustomError(ErrorCodes.TOKEN_EXPIRED_ERROR);
+    } catch (Exception e) {
+      throw new CustomError(ErrorCodes.INTERNAL_SERVER_ERROR);
+    }
   }
 
   public String generateToken(User user, TokenTypeEnum tokenType){
@@ -66,22 +55,5 @@ public class TokenUtil {
             .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
             .signWith(SignatureAlgorithm.HS256, secretKey)
             .compact();
-  }
-
-  public Boolean validateAccessToken(String token, User user){
-    final ParseTokenDto parseTokenDto = getUsernameFromToken(token);
-    return !(
-            parseTokenDto.getSubject().equals(user.getId()) &&
-                    !isTokenExpired(token) &&
-                    parseTokenDto.getIssuer().equals("access-token")
-    );
-  }
-
-  public Boolean validateRefreshToken(String refreshToken){
-    final ParseTokenDto parseTokenDto = getUsernameFromToken(refreshToken);
-    return !(
-            parseTokenDto.getIssuer().equals("refresh-token") &&
-                    !isTokenExpired(refreshToken)
-    );
   }
 }

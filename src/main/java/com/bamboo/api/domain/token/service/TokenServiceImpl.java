@@ -20,9 +20,7 @@ public class TokenServiceImpl implements TokenService{
   @Override
   public String tokenRenewal(String refreshToken) {
 
-    ParseTokenDto parseToken = this.tokenUtil.getUsernameFromToken(refreshToken);
-
-    if (tokenUtil.validateRefreshToken(refreshToken)) throw new CustomError(ErrorCodes.TOKEN_VERIFY_ERROR);
+    final ParseTokenDto parseToken = this.tokenUtil.getDataFromToken(refreshToken);
 
     User user = this.memberService.getUserFindById(parseToken.getSubject());
 
