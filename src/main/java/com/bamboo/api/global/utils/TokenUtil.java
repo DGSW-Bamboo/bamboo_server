@@ -1,6 +1,7 @@
 package com.bamboo.api.global.utils;
 
 import com.bamboo.api.domain.models.User;
+import com.bamboo.api.global.enums.TokenTypeEnum;
 import com.bamboo.api.global.exception.errors.CustomError;
 import com.bamboo.api.global.exception.errors.codes.ErrorCodes;
 import io.jsonwebtoken.Claims;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
 
 @Component
 public class TokenUtil {
@@ -39,7 +39,7 @@ public class TokenUtil {
   }
 
   private Claims getAllClaimsFromToken(String token) {
-    return Jwts.parser().setSigningKey(secretKey).requireSubject("token").parseClaimsJws(token).getBody();
+    return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
   }
 
   private Boolean isTokenExpired(String token){
@@ -47,14 +47,14 @@ public class TokenUtil {
     return expiration.before(new Date());
   }
 
-  public String generateToken(User user){
+  public String generateToken(User user, TokenTypeEnum tokenType){
     Map<String, Object> claims = new HashMap<>();
-    return doGenerateToken(claims, user.getId(), "access-token");
+    return doGenerateToken(claims, user.getId(), tokenType.getType());
   }
 
-  public String generateRefreshToken(User user){
+  public String generateRefreshToken(User user, TokenTypeEnum tokenType){
     Map<String, Object> claims = new HashMap<>();
-    return doGenerateToken(claims, user.getId(), "refresh-token");
+    return doGenerateToken(claims, user.getId(), tokenType.getType());
   }
 
   private String doGenerateToken(Map<String, Object> claims, String username, String subject) {
@@ -70,7 +70,7 @@ public class TokenUtil {
 
   public Boolean validateAccessToken(String token, User user){
     final ParseTokenDto parseTokenDto = getUsernameFromToken(token);
-    return (
+    return !(
             parseTokenDto.getSubject().equals(user.getId()) &&
                     !isTokenExpired(token) &&
                     parseTokenDto.getIssuer().equals("access-token")
@@ -79,7 +79,7 @@ public class TokenUtil {
 
   public Boolean validateRefreshToken(String refreshToken){
     final ParseTokenDto parseTokenDto = getUsernameFromToken(refreshToken);
-    return (
+    return !(
             parseTokenDto.getIssuer().equals("refresh-token") &&
                     !isTokenExpired(refreshToken)
     );

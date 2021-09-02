@@ -27,12 +27,13 @@ public class TokenController {
   @PostMapping(value = "/")
   public ResponseEntity<Object> accessTokenRenewal (final @Valid @RequestBody TokenRenewalDto tokenRenewalDto) {
 
-    this.tokenService.tokenRenewal(tokenRenewalDto.getRefreshToken());
+    String token = this.tokenService.tokenRenewal(tokenRenewalDto.getRefreshToken());
 
     return ResponseHandler
             .generateResponse(
                     HttpStatus.OK,
-                    "토큰 재발급 성공"
+                    "토큰 재발급 성공",
+                    token
             );
   }
 }

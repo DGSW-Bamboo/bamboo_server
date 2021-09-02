@@ -5,6 +5,7 @@ import com.bamboo.api.domain.auth.response.MemberWithTokenResponse;
 import com.bamboo.api.domain.auth.service.MemberService;
 import com.bamboo.api.domain.models.User;
 import com.bamboo.api.global.common.response.ResponseHandler;
+import com.bamboo.api.global.enums.TokenTypeEnum;
 import com.bamboo.api.global.utils.TokenUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -30,8 +31,8 @@ public class AuthController {
   public ResponseEntity<Object> dodamLogin (final @Valid @RequestBody DodamLoginDto dodamLoginDto) {
 
     final User saveUser = memberService.save(dodamLoginDto.getCode());
-    final String token = tokenUtil.generateToken(saveUser);
-    final String refreshToken = tokenUtil.generateRefreshToken(saveUser);
+    final String token = tokenUtil.generateToken(saveUser, TokenTypeEnum.ACCESS_TOKEN);
+    final String refreshToken = tokenUtil.generateRefreshToken(saveUser, TokenTypeEnum.REFRESH_TOKEN);
     final MemberWithTokenResponse memberWithTokenResponse = new MemberWithTokenResponse(saveUser, token, refreshToken);
 
     return ResponseHandler
