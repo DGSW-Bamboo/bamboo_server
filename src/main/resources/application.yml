@@ -1,0 +1,29 @@
+server:
+  address: localhost
+  port: 8080
+  servlet:
+    context-path: /api/v1
+
+spring:
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    database: mysql
+
+  datasource:
+    url: jdbc:mysql://${DB_HOST}:3306/${DB_TABLE}?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
+    username: ${DB_USER}
+    password: ${DB_PW}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  security:
+    basic:
+      enabled: false
+
+dodam:
+  client-id: ${CLIENT_ID}
+  client-secret: ${CLIENT_SECRET}
+
+jwt:
+  secret: ${JWT_SECRET}
+
