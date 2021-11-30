@@ -39,7 +39,7 @@ public class MemberServiceImpl implements MemberService {
         final User user = memberRepository.save(
                 getTokenInDodam(code).getData().toEntity()
         );
-        
+
         return MemberWithTokenResponse.of(
                 user,
                 tokenUtil.generateToken(user, TokenTypeEnum.ACCESS_TOKEN),

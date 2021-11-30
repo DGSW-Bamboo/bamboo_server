@@ -1,11 +1,12 @@
 package com.bamboo.api.global.utils;
 
 import com.bamboo.api.domain.models.User;
+import com.bamboo.api.global.config.properties.JwtProperties;
 import com.bamboo.api.global.enums.TokenTypeEnum;
 import com.bamboo.api.global.exception.errors.CustomError;
 import com.bamboo.api.global.exception.errors.codes.ErrorCodes;
 import io.jsonwebtoken.*;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -13,11 +14,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
+@RequiredArgsConstructor
 public class TokenUtil {
+
     private static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 
-    @Value("${jwt.secret}")
-    private String secretKey;
+    private final JwtProperties jwtProperties;
 
     public ParseTokenDto getDataFromToken(String token) {
         final Claims claims = getAllClaimsFromToken(token);
@@ -26,7 +28,7 @@ public class TokenUtil {
 
     private Claims getAllClaimsFromToken(String token) {
         try {
-            return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+            return Jwts.parser().setSigningKey(jwtProperties.getSecret()).parseClaimsJws(token).getBody();
         } catch (SecurityException | MalformedJwtException | UnsupportedJwtException | IllegalArgumentException e) {
             throw new CustomError(ErrorCodes.TOKEN_FOREGED_ERROR);
         } catch (ExpiredJwtException e) {
@@ -51,7 +53,7 @@ public class TokenUtil {
                 .setIssuer(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
-                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .signWith(SignatureAlgorithm.HS256, jwtProperties.getSecret())
                 .compact();
     }
 }
