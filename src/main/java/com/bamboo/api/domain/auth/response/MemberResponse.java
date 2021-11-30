@@ -8,5 +8,5 @@ import lombok.Getter;
 @AllArgsConstructor
 public class MemberResponse {
 
-  private final User user;
+    private final User user;
 }

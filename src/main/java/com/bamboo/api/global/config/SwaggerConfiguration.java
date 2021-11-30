@@ -14,21 +14,21 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfiguration {
 
-  @Bean
-  public Docket swaggerAPI () {
-  return new Docket(DocumentationType.SWAGGER_2)
-          .select()
-          .apis(RequestHandlerSelectors.any())
-          .paths(PathSelectors.any())
-          .build()
-          .useDefaultResponseMessages(false);
-  }
+    @Bean
+    public Docket swaggerAPI() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .select()
+                .apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.any())
+                .build()
+                .useDefaultResponseMessages(false);
+    }
 
-  private ApiInfo swaggerInfo() {
-    return new ApiInfoBuilder().title("Bamboo Server API Documentation")
-      .description("2021 Bamboo server의 API문서 입니다")
-      .license("DGSW-BAMBOO").licenseUrl("https://github.com/DGSW-Bamboo/bamboo_server")
-      .version("1")
-      .build();
-  }
+    private ApiInfo swaggerInfo() {
+        return new ApiInfoBuilder().title("Bamboo Server API Documentation")
+                .description("2021 Bamboo server의 API문서 입니다")
+                .license("DGSW-BAMBOO").licenseUrl("https://github.com/DGSW-Bamboo/bamboo_server")
+                .version("1")
+                .build();
+    }
 }

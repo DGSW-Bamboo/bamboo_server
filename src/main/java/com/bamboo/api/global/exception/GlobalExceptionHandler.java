@@ -19,54 +19,54 @@ import java.util.List;
 @Slf4j
 public class GlobalExceptionHandler {
 
-  @ExceptionHandler(MethodArgumentNotValidException.class)
-  protected ResponseEntity<ErrorResponse<List<String>>> handleMethodArgumentNotValidException (MethodArgumentNotValidException e) {
-    log.error("타입 검증 오류 발생", e);
-    System.out.println(e.getFieldErrors());
-    final ErrorResponse<List<String>> errorResponse = ErrorResponse.of(ErrorCodes.INVALID_INPUT_VALUE, e.getFieldErrors());
-    return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-  }
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    protected ResponseEntity<ErrorResponse<List<String>>> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        log.error("타입 검증 오류 발생", e);
+        System.out.println(e.getFieldErrors());
+        final ErrorResponse<List<String>> errorResponse = ErrorResponse.of(ErrorCodes.INVALID_INPUT_VALUE, e.getFieldErrors());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
 
-  @ExceptionHandler(BindException.class)
-  protected ResponseEntity<ErrorResponse<String>> handleBindException (BindException e) {
-    log.error("바인딩 중 오류 발생", e);
-    final ErrorResponse<String> errorResponse = ErrorResponse.of(ErrorCodes.INVALID_INPUT_VALUE, e.getBindingResult());
-    return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-  }
+    @ExceptionHandler(BindException.class)
+    protected ResponseEntity<ErrorResponse<String>> handleBindException(BindException e) {
+        log.error("바인딩 중 오류 발생", e);
+        final ErrorResponse<String> errorResponse = ErrorResponse.of(ErrorCodes.INVALID_INPUT_VALUE, e.getBindingResult());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
 
-  @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-  protected ResponseEntity<ErrorResponse<String>> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
-    log.error("enum에 바인딩 중 오류 발생", e);
-    final ErrorResponse<String> response = ErrorResponse.of(e);
-    return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-  }
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    protected ResponseEntity<ErrorResponse<String>> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
+        log.error("enum에 바인딩 중 오류 발생", e);
+        final ErrorResponse<String> response = ErrorResponse.of(e);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
 
-  @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-  protected ResponseEntity<ErrorResponse> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
-    log.error("허용되지 않은 HTTP METHOD 요청", e);
-    final ErrorResponse response = ErrorResponse.of(ErrorCodes.METHOD_NOT_ALLOWED);
-    return new ResponseEntity<>(response, HttpStatus.METHOD_NOT_ALLOWED);
-  }
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    protected ResponseEntity<ErrorResponse> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
+        log.error("허용되지 않은 HTTP METHOD 요청", e);
+        final ErrorResponse response = ErrorResponse.of(ErrorCodes.METHOD_NOT_ALLOWED);
+        return new ResponseEntity<>(response, HttpStatus.METHOD_NOT_ALLOWED);
+    }
 
-  @ExceptionHandler(AccessDeniedException.class)
-  protected ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException e) {
-    log.error("handleAccessDeniedException", e);
-    final ErrorResponse response = ErrorResponse.of(ErrorCodes.HANDLE_ACCESS_DENIED);
-    return new ResponseEntity<>(response, HttpStatus.valueOf(ErrorCodes.HANDLE_ACCESS_DENIED.getStatus()));
-  }
+    @ExceptionHandler(AccessDeniedException.class)
+    protected ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException e) {
+        log.error("handleAccessDeniedException", e);
+        final ErrorResponse response = ErrorResponse.of(ErrorCodes.HANDLE_ACCESS_DENIED);
+        return new ResponseEntity<>(response, HttpStatus.valueOf(ErrorCodes.HANDLE_ACCESS_DENIED.getStatus()));
+    }
 
-  @ExceptionHandler(CustomError.class)
-  protected ResponseEntity<ErrorResponse> handleBusinessException(final CustomError e) {
-    log.error("handleEntityNotFoundException", e);
-    final ErrorCodes errorCodes = e.getErrorCode();
-    final ErrorResponse response = ErrorResponse.of(errorCodes);
-    return new ResponseEntity<>(response, HttpStatus.valueOf(errorCodes.getStatus()));
-  }
+    @ExceptionHandler(CustomError.class)
+    protected ResponseEntity<ErrorResponse> handleBusinessException(final CustomError e) {
+        log.error("handleEntityNotFoundException", e);
+        final ErrorCodes errorCodes = e.getErrorCode();
+        final ErrorResponse response = ErrorResponse.of(errorCodes);
+        return new ResponseEntity<>(response, HttpStatus.valueOf(errorCodes.getStatus()));
+    }
 
-  @ExceptionHandler(Exception.class)
-  protected ResponseEntity<ErrorResponse> handleException(Exception e) {
-    log.error("handleEntityNotFoundException", e);
-    final ErrorResponse response = ErrorResponse.of(ErrorCodes.INTERNAL_SERVER_ERROR);
-    return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-  }
+    @ExceptionHandler(Exception.class)
+    protected ResponseEntity<ErrorResponse> handleException(Exception e) {
+        log.error("handleEntityNotFoundException", e);
+        final ErrorResponse response = ErrorResponse.of(ErrorCodes.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

@@ -5,11 +5,11 @@ import lombok.Getter;
 @Getter
 public class BaseTemplate {
 
-  private final int status;
-  private final String message;
+    private final int status;
+    private final String message;
 
-  public BaseTemplate (int status, String message) {
-    this.status = status;
-    this.message = message;
-  }
+    public BaseTemplate(int status, String message) {
+        this.status = status;
+        this.message = message;
+    }
 }

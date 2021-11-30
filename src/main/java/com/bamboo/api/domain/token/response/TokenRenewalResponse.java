@@ -7,5 +7,5 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TokenRenewalResponse {
 
-  private final String token;
+    private final String token;
 }

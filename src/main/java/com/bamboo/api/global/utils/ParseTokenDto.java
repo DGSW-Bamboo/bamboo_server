@@ -9,7 +9,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ParseTokenDto {
 
-  private final String issuer;
+    private final String issuer;
 
-  private final String subject;
+    private final String subject;
 }

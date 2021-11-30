@@ -12,23 +12,23 @@ import java.time.Duration;
 @RequiredArgsConstructor
 public class RestTemplateConfig {
 
-  private final RestTemplateBuilder restTemplateBuilder;
+    private final RestTemplateBuilder restTemplateBuilder;
 
-  private RestTemplate restTemplate (final String endpoint) {
-    return restTemplateBuilder.rootUri(endpoint)
-            .additionalInterceptors(new RestTemplateClientHttpRequestInterceptor())
-            .errorHandler(new RestTemplateErrorHandler())
-            .setConnectTimeout(Duration.ofMinutes(3))
-            .build();
-  }
+    private RestTemplate restTemplate(final String endpoint) {
+        return restTemplateBuilder.rootUri(endpoint)
+                .additionalInterceptors(new RestTemplateClientHttpRequestInterceptor())
+                .errorHandler(new RestTemplateErrorHandler())
+                .setConnectTimeout(Duration.ofMinutes(3))
+                .build();
+    }
 
-  @Bean
-  public RestTemplate dodamAuthTemplate () {
-    return this.restTemplate("http://dauth.b1nd.com/api");
-  }
+    @Bean
+    public RestTemplate dodamAuthTemplate() {
+        return this.restTemplate("http://dauth.b1nd.com/api");
+    }
 
-  @Bean
-  public RestTemplate dodamOpenTemplate () {
-    return this.restTemplate("http://open.dodam.b1nd.com/api");
-  }
+    @Bean
+    public RestTemplate dodamOpenTemplate() {
+        return this.restTemplate("http://open.dodam.b1nd.com/api");
+    }
 }

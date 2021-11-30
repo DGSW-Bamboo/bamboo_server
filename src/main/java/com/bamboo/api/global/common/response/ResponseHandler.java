@@ -8,20 +8,20 @@ import java.util.Map;
 
 public class ResponseHandler {
 
-  public static ResponseEntity<Object> generateResponse(HttpStatus status, String message, Object data) {
-    Map<String, Object> map = new HashMap<>();
-    map.put("data", data);
-    map.put("message", message);
-    map.put("status", status.value());
+    public static ResponseEntity<Object> generateResponse(HttpStatus status, String message, Object data) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("data", data);
+        map.put("message", message);
+        map.put("status", status.value());
 
-    return new ResponseEntity<>(map, status);
-  }
+        return new ResponseEntity<>(map, status);
+    }
 
-  public static ResponseEntity<Object> generateResponse(HttpStatus status, String message) {
-    Map<String, Object> map = new HashMap<>();
-    map.put("message", message);
-    map.put("status", status.value());
+    public static ResponseEntity<Object> generateResponse(HttpStatus status, String message) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("message", message);
+        map.put("status", status.value());
 
-    return new ResponseEntity<>(map, status);
-  }
+        return new ResponseEntity<>(map, status);
+    }
 }

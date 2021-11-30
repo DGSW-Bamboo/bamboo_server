@@ -14,46 +14,44 @@ import java.util.Map;
 
 @Component
 public class TokenUtil {
-  private static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
+    private static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 
-  @Value("${jwt.secret}")
-  private String secretKey;
+    @Value("${jwt.secret}")
+    private String secretKey;
 
-  public ParseTokenDto getDataFromToken(String token) {
-    final Claims claims = getAllClaimsFromToken(token);
-    return new ParseTokenDto(claims.getIssuer(), claims.getSubject());
-  }
-
-  private Claims getAllClaimsFromToken(String token) {
-    try {
-      return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
-    } catch (SecurityException | MalformedJwtException | UnsupportedJwtException | IllegalArgumentException e) {
-      throw new CustomError(ErrorCodes.TOKEN_FOREGED_ERROR);
-    } catch (ExpiredJwtException e) {
-      throw new CustomError(ErrorCodes.TOKEN_EXPIRED_ERROR);
-    } catch (Exception e) {
-      throw new CustomError(ErrorCodes.INTERNAL_SERVER_ERROR);
+    public ParseTokenDto getDataFromToken(String token) {
+        final Claims claims = getAllClaimsFromToken(token);
+        return new ParseTokenDto(claims.getIssuer(), claims.getSubject());
     }
-  }
 
-  public String generateToken(User user, TokenTypeEnum tokenType){
-    Map<String, Object> claims = new HashMap<>();
-    return doGenerateToken(claims, user.getId(), tokenType.getType());
-  }
+    private Claims getAllClaimsFromToken(String token) {
+        try {
+            return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+        } catch (SecurityException | MalformedJwtException | UnsupportedJwtException | IllegalArgumentException e) {
+            throw new CustomError(ErrorCodes.TOKEN_FOREGED_ERROR);
+        } catch (ExpiredJwtException e) {
+            throw new CustomError(ErrorCodes.TOKEN_EXPIRED_ERROR);
+        } catch (Exception e) {
+            throw new CustomError(ErrorCodes.INTERNAL_SERVER_ERROR);
+        }
+    }
 
-  public String generateRefreshToken(User user, TokenTypeEnum tokenType){
-    Map<String, Object> claims = new HashMap<>();
-    return doGenerateToken(claims, user.getId(), tokenType.getType());
-  }
+    public String generateToken(User user, TokenTypeEnum tokenType) {
+        return doGenerateToken(new HashMap<>(), user.getId(), tokenType.getType());
+    }
 
-  private String doGenerateToken(Map<String, Object> claims, String username, String subject) {
-    return Jwts.builder()
-            .setClaims(claims)
-            .setSubject(username)
-            .setIssuer(subject)
-            .setIssuedAt(new Date(System.currentTimeMillis()))
-            .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
-            .signWith(SignatureAlgorithm.HS256, secretKey)
-            .compact();
-  }
+    public String generateRefreshToken(User user, TokenTypeEnum tokenType) {
+        return doGenerateToken(new HashMap<>(), user.getId(), tokenType.getType());
+    }
+
+    private String doGenerateToken(Map<String, Object> claims, String username, String subject) {
+        return Jwts.builder()
+                .setClaims(claims)
+                .setSubject(username)
+                .setIssuer(subject)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
+                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .compact();
+    }
 }
