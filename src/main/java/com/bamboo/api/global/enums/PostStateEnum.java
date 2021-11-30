@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum PostStateEnum {
-  PENDING,
-  APPROVE,
-  CENSORED,
+    PENDING,
+    APPROVE,
+    CENSORED,
 }

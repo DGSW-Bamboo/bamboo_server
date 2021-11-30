@@ -11,14 +11,14 @@ import java.util.List;
 @Getter
 public class RejectReason {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "idx", unique = true, nullable = false)
-  private Long idx;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idx", unique = true, nullable = false)
+    private Long idx;
 
-  @Column(name = "reason", nullable = false)
-  private String reason;
+    @Column(name = "reason", nullable = false)
+    private String reason;
 
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "rejectReason")
-  private List<PostStatement> postStatements = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "rejectReason")
+    private List<PostStatement> postStatements = new ArrayList<>();
 }

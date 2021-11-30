@@ -12,10 +12,10 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor(access = AccessLevel.PACKAGE)
 public class TokenRenewalDto {
 
-  @NotBlank(message = "refreshToken은 필수 입력값입니다")
-  private String refreshToken;
+    @NotBlank(message = "refreshToken은 필수 입력값입니다")
+    private String refreshToken;
 
-  public TokenRenewalDto (String refreshToken) {
-    this.refreshToken = refreshToken;
-  }
+    public TokenRenewalDto(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
 }

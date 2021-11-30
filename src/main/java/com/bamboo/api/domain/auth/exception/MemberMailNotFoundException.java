@@ -4,7 +4,7 @@ import com.bamboo.api.global.exception.errors.codes.EntityNotFoundException;
 
 public class MemberMailNotFoundException extends EntityNotFoundException {
 
-  public MemberMailNotFoundException(String email) {
-    super(email + " is not found");
-  }
+    public MemberMailNotFoundException(String email) {
+        super(email + " is not found");
+    }
 }

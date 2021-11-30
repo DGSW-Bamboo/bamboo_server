@@ -5,12 +5,12 @@ import lombok.Getter;
 @Getter
 public enum TokenTypeEnum {
 
-  ACCESS_TOKEN("ACCESS_TOKEN"),
-  REFRESH_TOKEN("REFRESH_TOKEN");
+    ACCESS_TOKEN("ACCESS_TOKEN"),
+    REFRESH_TOKEN("REFRESH_TOKEN");
 
-  private final String type;
+    private final String type;
 
-  TokenTypeEnum(String type) {
-    this.type = type;
-  }
+    TokenTypeEnum(String type) {
+        this.type = type;
+    }
 }

@@ -4,8 +4,8 @@ import com.bamboo.api.global.exception.errors.CustomError;
 
 public class PropertyIsUndefinedException extends CustomError {
 
-  public PropertyIsUndefinedException(String message) {
+    public PropertyIsUndefinedException(String message) {
 
-    super(message, ErrorCodes.PROPERTY_IS_UNDEFINED_ERROR);
-  }
+        super(message, ErrorCodes.PROPERTY_IS_UNDEFINED_ERROR);
+    }
 }
